@@ -1,0 +1,164 @@
+  body {
+    margin-left: 20px;
+    margin-right: 20px;
+    font-family: verdana, sans-serif;
+  }
+  a {
+    color: #111;
+  }
+  a:hover {
+    color: grey;
+  }
+  a:hover {
+    color: grey;
+  }
+  th {
+    border-bottom: 1px solid;
+  }
+  .huge {
+    font-size: 200%;
+    font-weight: bold;
+  }
+  .big {
+    font-size: 120%;
+    font-weight: bold;
+  }
+  .tiny {
+    font-size: 90%;
+  }
+  .alarm {
+    color: red;
+    font-weight: bold;
+  }
+  .warning {
+    color: purple;
+    font-style: italic;
+  }
+  .left {
+    text-align: left;
+  }
+  .right {
+    text-align: right;
+  }
+  .center {
+    text-align: center;
+  }
+  .mono {
+    font-family: monospace;
+  }
+  .spacedout {
+    margin-top: 3em;
+    margin-bottom: 3em;
+  }
+  .spacedout-top {
+    margin-top: 3em;
+  }
+  .spacedout-bottom {
+    margin-bottom: 3em;
+  }
+
+  .totalrow {
+    border-top: 1px solid;
+  }
+
+  /* The sidebar menu - from w3schools.com*/
+  .sidenav {
+    height: 100%; /* Full-height: remove this if you want "auto" height */
+    width: 140px; /* Set the width of the sidebar */
+    position: fixed; /* Fixed Sidebar (stay in place on scroll) */
+    z-index: 1; /* Stay on top */
+    top: 0; /* Stay at the top */
+    left: 0;
+    background-color: #fff;
+    overflow-x: hidden; /* Disable horizontal scroll */
+    padding-top: 20px;
+  }
+
+  /* The topbar menu - from w3schools.com*/
+  .topnav {
+    height: 40px;
+    width: 100%;
+    position: fixed; /* Fixed Sidebar (stay in place on scroll) */
+    z-index: 1; /* Stay on top */
+    top: 0; /* Stay at the top */
+    left: 0;
+    background-color: #fff;
+    overflow-y: hidden; /* Disable vertical scroll */
+    padding-left: 20px;
+    padding-top: 15px;
+  }
+
+  /* The navigation menu links */
+  .sidenav a {
+    padding: 6px 8px 6px 16px;
+    color: #111;
+    display: block;
+  }
+  .topnav a {
+    padding: 15px 8px 15px 16px;
+    color: #111;
+  }
+  .sidenav a:hover {
+    color: grey;
+  }
+  .topnav a:hover {
+    color: grey;
+  }
+
+
+  /* Style page content */
+  .sidemain {
+    margin-left: 140px; /* Same as the width of the sidebar */
+    margin-right: 40px;
+    padding: 0px 10px;
+  }
+  .topmain {
+    margin-top: 55px;
+    padding: 0px 10px;
+  }
+
+  .wideTable {
+    width: 100%;
+    table-layout: fixed;
+  }
+  .wideTable th, .wideTable td {
+    font-size: 90%;
+    white-space: nowrap;
+    overflow: hidden;
+  }
+  .wideTable caption {
+    font-size: 90%;
+    text-align:left;
+  }
+
+  #condition {
+    margin-top: 3em;
+  }
+  #csv_upl {
+    margin-top: 3em;
+  }
+  #loader {
+    height: 150px;
+    width: 150px;
+    position:fixed;
+    margin: auto;
+    top:20%;
+    left:30%;
+    border: 64px solid #f3f3f3;
+    border-radius: 50%;
+    border-top: 64px solid #444444;
+    -webkit-animation: spin 10s linear infinite; /* Safari */
+    animation: spin 10s linear infinite;
+    z-index:100; // so this shows over the rest of your content
+  }
+
+  /* Safari */
+  @-webkit-keyframes spin {
+    0% { -webkit-transform: rotate(0deg); }
+    100% { -webkit-transform: rotate(360deg); }
+  }
+
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
