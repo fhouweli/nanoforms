@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Nanoforms doc</title>
+  <link rel="stylesheet" type="text/css" href="../bin/nanoforms.css" />
+</head>
+<body>
+
+<!-- Side navigation. From w3schools.com -->
+<div class="sidenav">
+  <a href="#introduction">Introduction</a>
+  <a href="#overview">Overview</a>
+  <a href="#prerequisites">Prerequisites</a>
+  <a href="#installation">Installation</a>
+  <a href="#survey">Survey(s)</a>
+  <a href="#forms">Forms</a>
+  <a href="#privacy">Privacy statements</a>
+  <a href="#mails">Invite emails</a>
+  <a href="#subscribers">Subscribers</a>
+  <a href="#sending">Inviting respondents</a>
+  <a href="#data">Getting the data</a>
+</div>
+
+<!-- Page content -->
+<div class="sidemain">
+  <p>
+    <span class="huge">Nanoforms</span>: simple webapp for simple surveys.
+  </p>
+
+
+  <h2 id="introduction">Introduction</h2>
+
+  <p>Nanoforms is a collection of php scripts you can upload to your
+    hosted server in order to deploy questionnaires and obtain responses.</p>
+  <p>Nanoforms helps you deploy html forms you create yourself (that is,
+    it does not assist you in questionnaire building) and optionally invite
+    prospective respondents with html emails you create yourself.</p>
+  <p>Nanoforms stores all data in a single-file <em>sqlite3</em> database. It
+    allows you to download the survey responses as text/csv for you to analyze
+    yourself.</p>
+
+
+  <h2 id="overview">Overview</h2>
+
+  <p>In Nanoforms, a <em>survey</em> is a collection of html forms, invitation
+    emails and/or privacy statements.</p>
+  <p>A survey must have at least one questionnaire form file. It may have more
+    than one form, for example in case of more languages or different
+    respondent targets. Different forms may have completely different questions
+    and input fields.</p>
+  <p>Surveys are of two types: <em>public</em> and <em>by invitation</em>. In
+    the former case you publish a link to a page where respondents register to
+    obtain a personal link to the questionnaire; in the latter case you send
+    a personal link by email to prospective respondents you already know. At
+    your choice, Nanoforms can do the posting of your emails or generate a
+    list of personal links you can mailmerge yourself.</p>
+  <p>Respondents of <em>by invitation</em> surveys are called
+    <em>subscribers</em>. Subscribers are not linked to any particular survey;
+    for every mailing you select the group of subscribers you want to invite.
+    These subscribers may carry data (called <em>start data</em>) you want to
+    use in the questionnaire fields or logic.</p>
+
+
+  <h2 id="prerequisites">Prerequisites</h2>
+
+  <p>Nanoforms needs the following PHP extensions:<ul>
+      <li>gd2</li>
+      <li>sqlite3.</li>
+    </ul>
+  </p>
+  <p>You can check by inspecting your server's php.ini file. If your hosting
+    provider offers Wordpress sites you should be ok.</p>
+
+  <h2 id="installation">Installation</h2>
+
+  <p>To install Nanoforms, copy the <em>nanoforms</em> directory (plus contents)
+    to your server somewhere under the web root directory (often called
+    <em>htdocs</em>), and then with your browser visit
+    <span class="mono">nanoforms/nanoforms_init.php</span> on your website.</p>
+  <p style="margin-left:5%">The directory on your site may actually have any
+    name you like. Not that it matters much: the world (your respondents) will
+    see this name only inside the url.</p>
+  <p><span class="mono">nanoforms_init.php</span> will ask you a few questions:
+    <ul>
+      <li>your email address (will be used as your login ID)</li>
+      <li>a password</li>
+      <li>the email address for contact forms
+        (like <em>postmaster@etcetera.etc</em>)</li>
+      <li>the email address to use as <em>from:</em> address in emails to
+        subscribers (like <em>surveys@etcetera.etc</em> - you might want to
+        create a dedicated mailbox on your hosting control panel)</li>
+      <li>a signature in emails to subscribers of <em>public</em> surveys
+        (to whom we send plaintext emails)</li>
+      <li>the default validity of links (default that you will always be able
+        to override)</li>
+    </ul>
+    </p>
+    and will then create a <em>sqlite3</em> database file
+    (<span class="mono">nanoforms.sqlite</span>) in the
+    <span class="mono">data</span> directory.</p>
+
+  <p style="margin-left:5%">Nanoforms comes with a
+    <span class="mono">.htaccess</span> file
+    to prevent outsiders from accessing the  <span class="mono">data</span>
+    directory.
+    You should check that pointing
+    your browser to <span class="mono">nanoforms/data/nanoforms.sqlite</span>
+    on your site does not result in a download of the file but in
+    error (or maybe a welcome page by your provider) instead. If it does
+    download the file you need to find out how to deny access to the
+    <span class="mono">data</span> directory in your hosting environment before
+    continuing.</p>
+
+  <h2 id="survey">Survey(s)</h2>
+
+  <p>Your first login will bring you to the empty <em>surveys</em> page.
+    Add a row (a name, a title, a &check; to make the survey <em>public</em>)
+    to create your first survey.</p>
+    <p>Once at least one survey has been created, successive logins will bring
+      you straight to the latest one.</p>
+      <p>The <em>survey</em> page shows the current status of the survey:</p>
+      <ul>
+        <li>the survey mode (by invitation or public)</li>
+        <li>the presence/absence of a questionnaire form</li>
+        <li>(if b invitation) the presence/absence of an invite email</li>
+        <li>(if public) the presence/absence of a privacy statement</li>
+        <li>the validity of links to the questionnaire (defaults to the one
+          specified in <span class="mono">nanoforms_init.php</span>)</li>
+        <li>do we allow respondents to return to the questionnaire after
+        submitting? (yes, only if not complete, read-only, no)</li>
+        <li>the survey status (test mode, live or halted)<sup>*</sup></li>
+        <li>a small summary of activity so far.</li>
+  </ul>
+
+  <p><sup>*</sup> A survey is in test mode per default. To go live, change
+    the survey status to <em>live</em>.</p>
+
+  <h2 id="forms">Forms</h2>
+
+  <p>From the <em>survey</em> page you reach the <em>forms</em> upload page.</p>
+
+  <p>A questionnaire (a <em>form</em>) is an html file with a <em>form</em>
+  element containing <em>input</em>, <em>select</em> and/or <em>textarea</em>
+  elements for the respondent to fill out.</p>
+
+  <p>A form you create will be presented to respondents exactly as you created
+    it, without any interventions on the part of Nanoforms,
+    <strong>but</strong>:</p>
+    <ul>
+      <li>you need to adapt the <em>action</em> attribute of the <em>form</em>
+        element: instead of <span class="mono">&lt;form method=&quot;post&quot;
+        action=&quot;www.etcetera.etc?etc&quot;&gt;</span> write: <span
+        class="mono">&lt;form method=&quot;post&quot;
+        action=&quot;<strong>%_TARGET_%</strong>&quot;&gt;</span>. Nanoforms
+        will replace the <span class="mono"><strong>%_TARGET_%</strong></span>
+        placeholder with a link to the page that will process the responses;</li>
+        <li>Nanoforms does not handle local resources the questionnaire file
+          may link to - like .css files, images or javascript files with
+          relative urls. You therefore need to
+          <ul>
+            <li>either incorporate these resources into the html file itself.
+              Images need to be converted into data uris. Nanoforms comes with
+              a simple PHP command line utility to accomplish this, but to use
+              it you must have PHP installed on your computer.</li>
+              <li>or upload the resouces yourself to the <em>nanoforms</em>
+                directory</li>
+          </ul>
+          Of course uploading the resources to some other place and using
+          absolute urls to access them is even better;
+        </li>
+        <li>if you want Nanoforms to speak the language of your respondents
+          (just a few phrases, for registering and thank you), make sure the
+          <em>html</em> tag contains a <em>language</em> attribute. Like so:<br />
+          <span class="mono">&lt;!DOCTYPE html&gt;<br />
+            &lt;html lang=&quot;nl&quot;&gt;</span>.<br />
+            The presence of this attribute is good practice in any case. On the
+            downside, only 3 languages have been implemented for now:
+            <span class="mono">en</span>, <span class="mono">it</span> and
+            <span class="mono">nl</span>. To add your language, edit
+            <span class="mono">participate.php</span>,
+            <span class="mono">deploy.php</span> and
+            <span class="mono">incoming.php</span>. And please contribute the
+            resulting scripts!
+          </li>
+        </ul>
+
+        <p>On the lower part of the <em>forms.php</em> page you may tell
+          Nanoforms when to consider a form <strong>complete</strong>,
+          using the 5-level condition builder. Often, you will want one of
+          the last questions to be filled out. Example: suppose the input field
+          of the last question is called <em>age</em>, then on the first row
+          of the builder select <span class="mono">age</span> in the
+          <em>field</em> column, then select <span class="mono">!=</span> (not
+          equal) in
+          the <em>relop</em> column, then press the <em>SUBMIT</em> button
+          leaving the <em>value</em> column blank. The page should now
+          display</p>
+          <p style="margin-left:10%"><span class="big mono">age != &apos;&apos;</span></p>
+          <p>as complete condition.</p>
+
+
+
+  <h2 id="privacy">Privacy statements</h2>
+
+  <p>In case of a public survey, from the <em>survey</em> page you also reach
+    the <em>privacy</em> upload page.</p>
+  <p>If your prospective respondents are known to you and are going to be
+    invited by you to participate, you obviously already have their consent
+    to their data being processed (and further specific issues can be clarified
+    in your invite emails).</p>
+  <p>If your survey is <em>public</em> you should obtain the respondent&apos;s
+    consent before collecting her/his responses. You may upload more than one
+    html file for the purpose - for example in case of more than one language.
+    In this case the respondent will have to select the appropriate statement
+    and it is therefore important that the filenames be meaningful.</p>
+  <p style="margin.left:5%">Nanoforms comes with an example template NOT
+    read nor approved by any lawyer - use at your own risk!</p>
+    <p>Nanoforms will ask the respondent's full name in addition to her/his
+      email address, so as to give the &quot;I accept&quot; checkbox some
+      more meaning.</p>
+
+
+  <h2 id="mails">Invite emails</h2>
+
+  <p>If the survey is <em>by invitation</em>, the <em>survey</em> page will
+    link to the <em>mails</em> page where you can upload html files containing
+    email bodies that Nanoforms may send to prospective respondents. If you
+    plan to send the emails yourself you can safely ignore the <em>mails</em>
+    page.  </p>
+  <p>Of course the body must contain a link for the respondent to the
+    questionnaire. To achieve this, use the
+    <span class="mono"><strong>%_LINK_%</strong></span> placeholder, either as
+    text (respondent&apos;s email client should convert it int a clickable
+    link), as in:</p>
+    <p style="margin-left:5%">&lt;p&gt;Here is your link to the questionnaire:
+      %_LINK_% &lt;/p&gt;</p>
+      <p> or as link anchor, as in</p>
+      <p style="margin-left:5%"> &lt;p&gt;Here is &lt;a
+        href=&quot;%_LINK_%&quot;&gt;your link&lt;/a&gt; to the questionnaire
+        &lt;/p&gt;.</p>
+      <p>The <span class="mono"><strong>%_LINK_%</strong></span> placeholder
+        will be replaced with<br />
+        <span class="mono">
+          www.etcetera.etc/nanoforms/deploy.php?tk=7b53f29c6fc6d82bbde14e63b463f291
+        </span>,
+        <br /> where <span class="mono"><strong>tk=</strong></span> is
+        followed by a random token assigned to the respondent.</p>
+      <p>In order to personalize your invitations, you may use the
+        respondent's <em>start data</em>, if present (see below). Any
+        <span class="mono">key=value</span> pair in the start data can be
+        used as <span class="mono">%_key_%</span> in the mail body: it
+        will be replaced by <span class="mono">value</span>.<br />
+        Dear %_firstName_%, will be replaced with Dear John, provided that
+        firstName=John is present in John&apos;s start data.</p>
+      <p>A &quot;mailing&quot; is the sending of email containing a link
+        to one specific questionnaire form to a group of prospective
+        respondents. Whether you send the emails yourself (through a
+        mailmerge with links provided by Nanoforms) or let Nanoforms do the
+        sending for you, the process always concerns one single
+        questionnaire form at a time. </p>
+
+  <h2 id="subscribers">Subscribers</h2>
+
+  <p><em>Subscribers</em> are the prospective respondents of
+    &quot;outgoing&quot; by-invitation surveys. The <em>sample</em>, if you
+    prefer. The list of subscribers you maintain in Nanoforms is independent
+    of the surveys - any subscriber can be selected by you for any survey.</p>
+
+  <p>You may upload subscribers as rows of csv-files selecting
+    <em>Subscribers</em> from the main menu. There are no particular
+    restrictions on the format of a subscribers csv file, except that it must
+    have a header row and a column named <strong><em>email</em></strong>.</p>
+  <p>A subscriber&apos;s email address is used as her/his effective ID, and
+    therefore neither empty nor duplicate values in the email column are
+    accepted.</p>
+  <p>A column named <strong><em>stratum</em></strong>, if present, will
+    allow you to easily select groups of subscribers and to view summary
+    statistics for each group separately. Language groups come to mind, but
+    also classical strata like Nielsen area or company size.</p>
+  <p>Any other columns in the csv file will be combined together into a
+    single column &quot;<strong><em>start data</em></strong>&quot;, as
+    &lt;column-name&gt=&lt;value&gt; pairs. These may be referenced in
+    invite emails or questionnaire forms with the %_column-name_%
+    placeholder. For example, this text input element:
+    <span class="mono">&lt;input type="text" name="nation"
+      value="%_nation_%" /&gt;</span> will be presented as
+      <input type="text" name="nation" value="Italy" /> if the
+      subscriber&apos;s start data contains nation=Italy.</p>
+    <p>The upload page for subscriber files (<em>subscribers.php</em>)
+      lets you choose what to do in case of duplicate email addresses:</p>
+    <ul style="margin-top:-1em">
+      <li>discard: keep the one already present</li>
+      <li>substitute: keep the new one</li>
+      <li>update: replace <em>stratum</em> with the new value;
+        in the <em>start data</em> replace values of existing keys
+        with the new ones, and add new key=value pairs.</li>
+    </ul>
+    <p>You can inspect the records of an uploaded subscriber
+      file by means of the <em>details</em> button next to the file
+      record, and you can inspect or modify single subscriber
+      records as well.</p>
+
+
+  <h2 id="sending">Inviting respondents</h2>
+
+  <p>Two routes lead to the page for sending invite emails
+    (<em>mailing.php</em>):</p>
+  <ul>
+    <li>the upload page for questionnaire forms (<em>forms.php</em>);</li>
+    <li>[<em>by invitation</em> surveys only] the upload page for email bodies
+      (<em>mails.php</em>).</li>
+  </ul>
+  <p>In case of a <strong>public</strong> survey, clicking <em>Invite
+  subscribers</em> will open <em>publicLink.php</em>, which shows the link
+  (url) prospective respondents may follow to participate in the survey. These
+  respondents arrive at <em>participate.php</em>, which displays the privacy
+  statement and asks for respondent's complete name, email, acceptance of
+  the privacy statement and a captcha code. Nanoforms will then send her/him
+  a link to the questionnaire form.</p>
+  <p>In case of a <strong>by invitation</strong> survey, clicking <em>Invite
+  subscribers</em> will open <em>recipients.php</em>, which lists the first 50
+  subscribers in the data base and allows you to select the target for your
+  mailing.</p>
+  <p style="margin-left:5%">You can use the input fields in the column headers
+  to select the subset of subscribers you want to invite. For numeric columns,
+  use a comparison operator like &lt; or &gt;=. For string columns, use a
+  substring. For example, <em>sample1</em> (or <em>%sample1%</em>) in the
+  <em>file</em> column to select all subscribers from file sample1.csv. Press
+  the <em>Apply filter</em> button to see the effect of your filters.</p>
+  <p>If you confirm the selection of subscribers, you will be shown
+  <em>mailing.php</em>. Here you confirm the selected form (and email body
+  if any), and a few parameters:</p>
+  <ul style="margin-top:-1em">
+    <li><em>Action</em>: send invite emails or generate links</li>
+    <li><em>From</em>: the sender of the emails</li>
+    <li><em>Subject</em>: the subject header of the emails</li>
+    <li><em>Link validity</em>: for how long will respondents be able to visit
+      the questionnaire</li>
+    <li><em>This site</em>: shows what Nanoforms believes to be the url to
+      your Nanoforms installation. Correct if wrong.</li>
+    <li>since the results come as a file (<em>nanoforms-log.csv</em>):<ul>
+      <li><em>csv line break</em> (linefeed or carriage return plus linefeed)</li>
+      <li><em>column separator</em></li>
+    </ul>
+  </ul>
+
+  <h2 id="data">Getting the data</h2>
+
+  <p>The page for downloading the data (<em>data.php</em>) as a .csv file
+    presents you with a list of questions/options:</p>
+  <ul>
+    <li><em>csv line break</em> (linefeed or carriage return plus linefeed)</li>
+    <li><em>column separator</em> (default semicolon)</li>
+    <li><em>date/time format</em> (default Y-m-d H:i): how you want date and
+      time represented. You can find a complete reference
+      <a href="https://www.php.net/manual/en/datetime.format.php">here</a></li>
+    <li><em>final submits only</em>: Nanoforms records all forms submitted by
+      a respondent. Depending on the option setting of the <em>survey</em>
+      page a repondent may revisit and re-submit a form more than once. The
+      default setting is to consider only the last form submitted</em></li>
+    <li><em>completes only</em>: consider only forms that satisfy the
+      <em>complete</em> condition (default yes)</li>
+      <li><em>include test data</em>: consider forms submitted while survey
+        was in test mode (default no)</li>
+    <li><em>include email</em>: include a column <em>email</em> in the output
+      (default no)</li>
+    <li><em>include start data</em>: include a column for every key in the
+      subscriber's start data (default no).</li>
+  </ul>
+
+
+</div>
+</body>
+</html>
