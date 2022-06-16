@@ -1,7 +1,7 @@
 <?php
 
 if ($argc != 3) {
-  echo 'Usage: ' . $argv[0] . " input_html_file output_html_file\r\n";
+  echo 'Usage: php ' . $argv[0] . " input_html_file output_html_file\r\n";
   exit;
 }
 

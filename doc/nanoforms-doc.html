@@ -20,6 +20,7 @@
   <a href="#subscribers">Subscribers</a>
   <a href="#sending">Inviting respondents</a>
   <a href="#data">Getting the data</a>
+  <a href="#utilities">Useful tools</a>
 </div>
 
 <!-- Page content -->
@@ -74,11 +75,12 @@
 
   <h2 id="installation">Installation</h2>
 
-  <p>To install Nanoforms, copy the <em>nanoforms</em> directory (plus contents)
+  <p>To install Nanoforms, copy the <em>bin</em> directory (and its contents)
     to your server somewhere under the web root directory (often called
-    <em>htdocs</em>), and then with your browser visit
-    <span class="mono">nanoforms/nanoforms_init.php</span> on your website.</p>
-  <p style="margin-left:5%">The directory on your site may actually have any
+    <em>htdocs</em>), and rename it to <em>nanoforms</em>. Then with your
+    browser visit <span class="mono">nanoforms/nanoforms_init.php</span> on
+    your website.</p>
+  <p class="tiny" style="margin-left:5%">The directory on your site may actually have any
     name you like. Not that it matters much: the world (your respondents) will
     see this name only inside the url.</p>
   <p><span class="mono">nanoforms_init.php</span> will ask you a few questions:
@@ -100,7 +102,7 @@
     (<span class="mono">nanoforms.sqlite</span>) in the
     <span class="mono">data</span> directory.</p>
 
-  <p style="margin-left:5%">Nanoforms comes with a
+  <p class="tiny" style="margin-left:5%">Nanoforms comes with a
     <span class="mono">.htaccess</span> file
     to prevent outsiders from accessing the  <span class="mono">data</span>
     directory.
@@ -123,7 +125,7 @@
       <ul>
         <li>the survey mode (by invitation or public)</li>
         <li>the presence/absence of a questionnaire form</li>
-        <li>(if b invitation) the presence/absence of an invite email</li>
+        <li>(if by invitation) the presence/absence of an invite email</li>
         <li>(if public) the presence/absence of a privacy statement</li>
         <li>the validity of links to the questionnaire (defaults to the one
           specified in <span class="mono">nanoforms_init.php</span>)</li>
@@ -171,7 +173,8 @@
         </li>
         <li>if you want Nanoforms to speak the language of your respondents
           (just a few phrases, for registering and thank you), make sure the
-          <em>html</em> tag contains a <em>language</em> attribute. Like so:<br />
+          <em>html</em> tag of your form contains a <em>language</em> attribute.
+           Like so:<br />
           <span class="mono">&lt;!DOCTYPE html&gt;<br />
             &lt;html lang=&quot;nl&quot;&gt;</span>.<br />
             The presence of this attribute is good practice in any case. On the
@@ -251,8 +254,11 @@
         <span class="mono">key=value</span> pair in the start data can be
         used as <span class="mono">%_key_%</span> in the mail body: it
         will be replaced by <span class="mono">value</span>.<br />
-        Dear %_firstName_%, will be replaced with Dear John, provided that
-        firstName=John is present in John&apos;s start data.</p>
+        <em>Dear %_firstName_%</em>, will be replaced with <em>Dear John</em>,
+        provided that <span class="mono">firstName=John</span> is present in
+        John&apos;s start data, which in turn means that <em>John</em> was in
+        a column called <em>firstName</em> in the originating
+        csv file. </p>
       <p>A &quot;mailing&quot; is the sending of email containing a link
         to one specific questionnaire form to a group of prospective
         respondents. Whether you send the emails yourself (through a
@@ -369,7 +375,29 @@
       subscriber's start data (default no).</li>
   </ul>
 
+<h2 id="utilities">Useful tools</h2>
 
+<h3>Fake data</h3>
+<p>Once you have a survey form in place, you can simulate what the data will
+look like pointing your browser to <span class="mono">fakeData.php</span>. It
+will create a survey called <em>Fake</em> that uses your form, with a maximum
+of 500 fake respondents and irrealistic response rates.</p>
+<p>It will also add the fake subscribers to the database. Although normally
+subscribers and surveys are unrelated, deleting the <em>Fake</em> survey
+will delete the fake subscribers as well.</p>
+
+<h3>packhtml</h3>
+<p>If you want &quot;local&quot; images (or scripts) in your questionnaire
+  form, rather than clobbering the nanoforms directory you should incorporate
+  these resources into the html file before uploading.
+  The <span class="mono">packhtml.php</span>
+  script in the <span class="mono">utils</span> directory might help you,
+  provided you have php installed. From the directory containg your form and
+  the local resources, onn the command line type:</p>
+  <p class="mono" style="margin-left:5%">php
+    [path to nanoforms]/util/packhtml.php input_html_file output_html_file</p>
+    <p>Check that <span class="mono">output_html_file</span> works as expected
+    and upload that file on the <em>forms</em> page.</p>
 </div>
 </body>
 </html>
